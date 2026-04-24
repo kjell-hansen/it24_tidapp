@@ -1,0 +1,76 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden;
+    background-color: lightblue;
+}
+a {
+    color: inherit;
+    text-decoration: none;
+    display: inline-block;
+    width: 100%;
+}
+body {
+    display: grid;
+    grid-template-rows: 5em 3em auto 2em;
+}
+header {
+    margin:0 auto;
+    max-height: 5em;
+}
+nav {
+}
+nav ul{
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    padding:0;
+    justify-content: space-around;
+    margin: 0 auto;
+}
+nav ul li {
+    border: 1px solid black;
+    padding: 2%;
+    flex-grow: 1;
+    text-align: center;
+    margin: 0;
+}
+main {
+    background-color: lightgoldenrodyellow;
+    padding: 5px;
+    min-height: 100px;
+    overflow-y: auto;
+}
+footer {
+    background-color: lightcyan;
+    margin: 0 auto;
+    text-align: center;
+}
+footer p{
+    margin: 0.3em;
+}
+li.aktiv {
+    background-color: lightcyan;
+}
+li.right {
+    text-align: right;
+}
+.lista {
+    display: grid;
+    grid-template-columns: auto 4em;
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+    background-color: lavenderblush;
+}
+.lista:nth-child(odd) {
+    background-color: lavender;
+}
+.lista li {
+    padding-left: 5px;
+}
+.heading {
+    font-weight: bold;
+    background-color: silver;
+}
