@@ -1,0 +1,15 @@
+a{
+    width: initial;
+}
+.lista {
+    grid-template-columns: 6em 3em 1fr 2fr 4em;
+}
+.lista .beskrivning {
+    white-space: pre-wrap;
+}
+img {
+    height: 1.2em;
+}
+.edit, .delete {
+    cursor: pointer;
+}
