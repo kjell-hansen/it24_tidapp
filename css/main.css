@@ -67,10 +67,22 @@ footer p {
     margin: 0.3em auto;
     text-align: center;
 }
+
+fieldset {
+    width: clamp(100px, 80vw, 800px);
+    margin: 1em auto;
+}
+
+label {
+    display: block;
+    padding: 5px 0;
+}
+
 div.tom {
     margin: 0;
     padding: 0;
 }
+
 li.aktiv {
     background-color: lightcyan;
 }
@@ -102,3 +114,4 @@ li.right {
     font-weight: bold;
     background-color: silver;
 }
+

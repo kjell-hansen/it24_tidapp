@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="sv">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Tidapp</title>
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/editAktivitet.css">
+    </head>
+    <body>
+        <header>
+            <h1>Tidsrapportering - Uppgifter</h1>
+        </header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Sammanställning</a></li>
+                <li><a href="aktiviteter.html">Aktiviteter</a></li>
+                <li class="aktiv"><a href="uppgifter.html">Uppgifter</a></li>
+            </ul>
+        </nav>
+        <main>
+            <fieldset>
+                <legend>Uppgifter</legend>
+                <label id="labelId">ID: <span id="valueId">3</span></label>
+                <label id="labelDatum">Datum:
+                    <input type="date" id="inputDatum" value="2026-04-01">
+                </label>
+                <label id="labelVaraktighet">Varaktighet:
+                    <input type="time" id="inputVaraktighet" value="03:00">
+                </label>
+                <label id="labelAktivitet">Aktivitet:
+                    <select id="inputAktivitet" size="1">
+                        <option value="1">Databas</option>
+                        <option value="2">API - Uppgifter</option>
+                        <option value="4">Planering</option>
+                        <option value="7">Gränssnitt - Uppgifter</option>
+                        <option value="8" selected>Gränssnitt - Aktiviteter</option>
+                        <option value="9">Gränssnitt - Sammanställning</option>
+                    </select>
+                <label id="labelBeskrivning">Beskrivning:<br>
+                    <textarea id="inputBeskrivning" rows="5" cols="60">En jättelång text som har flera rader.
+                    Radbrytningar ställer till det.
+                    Ibland.</textarea>
+                </label>
+                </label>
+                <p>
+                    <button id="spara">Spara</button>
+                    <button id="nyAktivitet">Ny aktivitet</button>
+                </p>
+            </fieldset>
+        </main>
+        <footer>
+            <p>&copy; Kjell Hansen 2026</p>
+        </footer>
+    </body>
+</html>
