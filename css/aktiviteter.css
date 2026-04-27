@@ -1,0 +1,13 @@
+a{
+    width: initial;
+}
+.lista {
+    grid-template-columns: auto 4em;
+}
+
+img {
+    height: 1.2em;
+}
+.edit, .delete {
+    cursor: pointer;
+}

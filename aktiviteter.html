@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="sv">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Tidapp</title>
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/aktiviteter.css">
+    </head>
+    <body>
+        <header>
+            <h1>Tidsrapportering - Aktiviteter</h1>
+        </header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Sammanställning</a></li>
+                <li class="aktiv">Aktiviteter</li>
+                <li><a href="uppgifter.html">Uppgifter</a></li>
+            </ul>
+        </nav>
+        <main>
+            <p>
+                <button id="nyAktivitet">Ny aktivitet</button>
+            </p>
+            <ul class="lista heading">
+                <li>Aktivitet</li>
+                <li class="right">&nbsp;</li>
+            </ul>
+            <div class="tom">
+                <!--- ul-taggarna nedan ska tas bort och skapas dynamiskt-->
+                <ul class="lista">
+                    <li>Databas</li>
+                    <li class="right">
+                        <a href="editAktivitet.html"><img class="edit" src="images/edit.png"></a>
+                        <img class="delete" onclick="alerDelete" src="images/delete.png">
+                    </li>
+                </ul>
+                <ul class="lista">
+                    <li>Planering</li>
+                    <li class="right">
+                        <a href="editAktivitet.html"><img class="edit" src="images/edit.png"></a>
+                        <img class="delete" onclick="alerDelete" src="images/delete.png">
+                    </li>
+                </ul>
+                <ul class="lista">
+                    <li>Gränssnitt - Aktiviteter</li>
+                    <li class="right">
+                        <a href="editAktivitet.html"><img class="edit" src="images/edit.png"></a>
+                        <img class="delete" onclick="alerDelete" src="images/delete.png">
+                    </li>
+                </ul>
+                <ul class="lista">
+                    <li>Gränssnitt - Uppgifter</li>
+                    <li class="right">
+                        <a href="editAktivitet.html"><img class="edit" src="images/edit.png"></a>
+                        <img class="delete" onclick="alerDelete" src="images/delete.png">
+                    </li>
+                </ul>
+                <ul class="lista">
+                    <li>API - Uppgifter</li>
+                    <li class="right">
+                        <a href="editAktivitet.html"><img class="edit" src="images/edit.png"></a>
+                        <img class="delete" onclick="alerDelete" src="images/delete.png">
+                    </li>
+                </ul>
+                <!--- Slut på dynamiskt skapad html -->
+            </div>
+        </main>
+        <footer>
+            <p>&copy; Kjell Hansen 2026</p>
+        </footer>
+    </body>
+</html>

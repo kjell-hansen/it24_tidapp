@@ -59,14 +59,18 @@ main {
 }
 
 footer {
-    margin: 0 auto;
-    text-align: center;
+    border-top: 4px double black;
+    margin: 0;
 }
 
 footer p {
-    margin: 0.3em;
+    margin: 0.3em auto;
+    text-align: center;
 }
-
+div.tom {
+    margin: 0;
+    padding: 0;
+}
 li.aktiv {
     background-color: lightcyan;
 }
@@ -77,22 +81,24 @@ li.right {
 
 .lista {
     display: grid;
-    grid-template-columns: auto 4em;
     list-style: none;
     margin: 0 auto;
     padding: 0;
-    background-color: lavenderblush;
 }
 
 .lista:nth-child(odd) {
     background-color: lavender;
 }
 
-.lista li {
-    padding-left: 5px;
+.lista:nth-child(even) {
+    background-color: lavenderblush;
 }
 
-.heading {
+.lista li {
+    padding: 2px 5px;
+}
+
+.lista.heading {
     font-weight: bold;
     background-color: silver;
 }
