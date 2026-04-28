@@ -9,8 +9,8 @@ require_once __DIR__ . '/funktioner.php';
  * @param array $postData Indata för behandling i angiven rutt
  * @return Response
  */
-function activities(Route $route, array $postData): Response {
-     try {
+function activities(Route $route, array $postData):Response {
+    try {
         if (count($route->getParams()) === 0 && $route->getMethod() === RequestMethod::GET) {
             return hamtaAllaAktiviteter();
         }
@@ -18,11 +18,11 @@ function activities(Route $route, array $postData): Response {
             return hamtaEnskildAktivitet($route->getParams()[0]);
         }
         if (isset($postData["activity"]) && count($route->getParams()) === 0 &&
-                $route->getMethod() === RequestMethod::POST) {
-            return sparaNyAktivitet((string) $postData["activity"]);
+            $route->getMethod() === RequestMethod::POST) {
+            return sparaNyAktivitet((string)$postData["activity"]);
         }
         if (count($route->getParams()) === 1 && $route->getMethod() === RequestMethod::PUT) {
-            return uppdateraAktivitet( $route->getParams()[0],  $postData["activity"]);
+            return uppdateraAktivitet($route->getParams()[0], $postData["activity"]);
         }
         if (count($route->getParams()) === 1 && $route->getMethod() === RequestMethod::DELETE) {
             return raderaAktivetet($route->getParams()[0]);
@@ -38,24 +38,24 @@ function activities(Route $route, array $postData): Response {
  * Returnerar alla aktiviteter som finns i databasen
  * @return Response
  */
-function hamtaAllaAktiviteter(): Response {
+function hamtaAllaAktiviteter():Response {
     // Koppla mot databas
-    $db=connectDb();
+    $db = connectDb();
 
     // Hämta alla aktiviteter
-    $result=$db->query("SELECT id, aktivitet FROM aktiviteter");
+    $result = $db->query("SELECT id, aktivitet FROM aktiviteter");
 
     // Skapa retur
-    $retur=[];
+    $retur = [];
     foreach ($result as $post) {
-        $rad=new stdClass();
-        $rad->id=$post['id'];
-        $rad->aktivitet=$post['aktivitet'];
-        $retur[]=$rad;
+        $rad = new stdClass();
+        $rad->id = $post['id'];
+        $rad->activity = $post['aktivitet'];
+        $retur[] = $rad;
     }
 
     // Returnera svar
-    return new Response(["activities"=>$retur]);
+    return new Response(["activities" => $retur]);
 }
 
 /**
@@ -63,7 +63,37 @@ function hamtaAllaAktiviteter(): Response {
  * @param string $id Id för aktiviteten
  * @return Response
  */
-function hamtaEnskildAktivitet(string $id): Response {
+function hamtaEnskildAktivitet(string $id):Response {
+    // Kontrollera indata
+    $aktivitetsId = filter_var($id, FILTER_VALIDATE_INT);
+
+    if ($aktivitetsId === false) {
+        $retur = new stdClass();
+        $retur->error = ["Bad request", "Ogiltigt id"];
+
+        return new Response($retur, 400);
+    }
+
+    // Koppla mot databas
+    $db = connectDb();
+
+    // Skicka fråga
+    $stmt = $db->prepare("SELECT id, aktivitet FROM aktiviteter where id=:id");
+    $stmt->execute(['id' => $aktivitetsId]);
+
+    // Hantera svar
+    if ($row = $stmt->fetch()) {
+        $retur = new stdClass();
+        $retur->id = $row['id'];
+        $retur->activity = $row['aktivitet'];
+
+        return new Response($retur);
+    } else {
+        $retur = new stdClass();
+        $retur->error = ['Bad request', "Angivet id ($aktivitetsId) finns inte i databasen"];
+
+        return new  Response($retur, 400);
+    }
 }
 
 /**
@@ -71,8 +101,7 @@ function hamtaEnskildAktivitet(string $id): Response {
  * @param string $aktivitet Aktivitet som ska sparas
  * @return Response
  */
-function sparaNyAktivitet(string $aktivitet): Response {
-}
+function sparaNyAktivitet(string $aktivitet):Response {}
 
 /**
  * Uppdaterar angivet id med ny text
@@ -80,13 +109,11 @@ function sparaNyAktivitet(string $aktivitet): Response {
  * @param string $aktivitet Ny text
  * @return Response
  */
-function uppdateraAktivitet(string $id, string $aktivitet): Response {
-}
+function uppdateraAktivitet(string $id, string $aktivitet):Response {}
 
 /**
  * Raderar en aktivitet med angivet id
  * @param string $id Id för posten som ska raderas
  * @return Response
  */
-function raderaAktivetet(string $id): Response {
-}
+function raderaAktivetet(string $id):Response {}
