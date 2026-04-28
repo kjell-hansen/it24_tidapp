@@ -1,0 +1,80 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "aktivitet_id": 10,
+      "datum": "2026-04-21",
+      "varaktighet": "02:15:00",
+      "beskrivning": "Skapa projektplan och beskriv projektet"
+    },
+    {
+      "id": 2,
+      "aktivitet_id": 1,
+      "datum": "2026-04-23",
+      "varaktighet": "00:45:00",
+      "beskrivning": "Skapa databasen"
+    },
+    {
+      "id": 3,
+      "aktivitet_id": 1,
+      "datum": "2026-04-27",
+      "varaktighet": "01:30:00",
+      "beskrivning": "Fyll i data i databastabellerna"
+    },
+    {
+      "id": 4,
+      "aktivitet_id": 7,
+      "datum": "2026-04-24",
+      "varaktighet": "03:00:00",
+      "beskrivning": "Skapa vy för sammanställning. \r\nSätt upp gemensam css."
+    },
+    {
+      "id": 5,
+      "aktivitet_id": 7,
+      "datum": "2026-04-27",
+      "varaktighet": "01:00:00",
+      "beskrivning": "Färdigställa vy för sammanställning inkl gemensam css"
+    },
+    {
+      "id": 6,
+      "aktivitet_id": 3,
+      "datum": "2026-04-27",
+      "varaktighet": "00:45:00",
+      "beskrivning": "Skapa vy för aktiviteter"
+    },
+    {
+      "id": 7,
+      "aktivitet_id": 4,
+      "datum": "2026-04-27",
+      "varaktighet": "00:30:00",
+      "beskrivning": "Skapa vy för uppgifter"
+    },
+    {
+      "id": 8,
+      "aktivitet_id": 5,
+      "datum": "2026-04-27",
+      "varaktighet": "00:10:00",
+      "beskrivning": "Vy för inmatning av ny aktivitet"
+    },
+    {
+      "id": 9,
+      "aktivitet_id": 6,
+      "datum": "2026-04-27",
+      "varaktighet": "00:20:00",
+      "beskrivning": "Vy för inmatning av ny uppgift"
+    },
+    {
+      "id": 10,
+      "aktivitet_id": 2,
+      "datum": "2026-03-31",
+      "varaktighet": "02:30:00"
+    },
+    {
+      "id": 11,
+      "aktivitet_id": 10,
+      "datum": "2026-04-23",
+      "varaktighet": "02:30:00",
+      "beskrivning": "Skapa skärmbilder och komplettera projektplanen"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "activities": [
+    {
+      "id": 1,
+      "aktivitet": "Databas"
+    },
+    {
+      "id": 2,
+      "aktivitet": "Planering"
+    },
+    {
+      "id": 3,
+      "aktivitet": "Gränssnitt - Aktiviteter"
+    },
+    {
+      "id": 4,
+      "aktivitet": "Gränssnitt - Uppgifter"
+    },
+    {
+      "id": 5,
+      "aktivitet": "Gränssnitt - Ny uppgift"
+    },
+    {
+      "id": 6,
+      "aktivitet": "Gränssnitt - Ny aktivitet"
+    },
+    {
+      "id": 7,
+      "aktivitet": "Gränssnitt - Sammanställning"
+    },
+    {
+      "id": 8,
+      "aktivitet": "API - Aktiviteter"
+    },
+    {
+      "id": 9,
+      "aktivitet": "API - Uppgifter"
+    },
+    {
+      "id": 10,
+      "aktivitet": "API - Sammanställning"
+    },
+    {
+      "id": 11,
+      "aktivitet": "Dokumentation"
+    }
+  ]
+}
