@@ -10,8 +10,7 @@ require_once __DIR__ . '/funktioner.php';
  * @return Response
  */
 function activities(Route $route, array $postData): Response {
-    return new Response("Aktiviteter");
-    try {
+     try {
         if (count($route->getParams()) === 0 && $route->getMethod() === RequestMethod::GET) {
             return hamtaAllaAktiviteter();
         }
@@ -40,6 +39,23 @@ function activities(Route $route, array $postData): Response {
  * @return Response
  */
 function hamtaAllaAktiviteter(): Response {
+    // Koppla mot databas
+    $db=connectDb();
+
+    // Hämta alla aktiviteter
+    $result=$db->query("SELECT id, aktivitet FROM aktiviteter");
+
+    // Skapa retur
+    $retur=[];
+    foreach ($result as $post) {
+        $rad=new stdClass();
+        $rad->id=$post['id'];
+        $rad->aktivitet=$post['aktivitet'];
+        $retur[]=$rad;
+    }
+
+    // Returnera svar
+    return new Response(["activities"=>$retur]);
 }
 
 /**

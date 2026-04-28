@@ -23,6 +23,7 @@ if (count($_POST) > 0) {
 try {
     // Hämta ruttinformation
     $route = getRoute($uri, $metod);
+
     // Hantera ruttinformationen
     switch ($route->getRoute()) {
         case "/":
