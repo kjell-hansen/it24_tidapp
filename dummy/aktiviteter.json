@@ -1,48 +1,49 @@
 {
-  "activities": [
-    {
-      "id": 1,
-      "aktivitet": "Databas"
-    },
-    {
-      "id": 2,
-      "aktivitet": "Planering"
-    },
-    {
-      "id": 3,
-      "aktivitet": "Gränssnitt - Aktiviteter"
-    },
-    {
-      "id": 4,
-      "aktivitet": "Gränssnitt - Uppgifter"
-    },
-    {
-      "id": 5,
-      "aktivitet": "Gränssnitt - Ny uppgift"
-    },
-    {
-      "id": 6,
-      "aktivitet": "Gränssnitt - Ny aktivitet"
-    },
-    {
-      "id": 7,
-      "aktivitet": "Gränssnitt - Sammanställning"
-    },
-    {
-      "id": 8,
-      "aktivitet": "API - Aktiviteter"
-    },
-    {
-      "id": 9,
-      "aktivitet": "API - Uppgifter"
-    },
-    {
-      "id": 10,
-      "aktivitet": "API - Sammanställning"
-    },
-    {
-      "id": 11,
-      "aktivitet": "Dokumentation"
-    }
-  ]
+	"activities":
+	[
+		{
+			"id": 8,
+			"activity": "API - Aktiviteter"
+		},
+		{
+			"id": 10,
+			"activity": "API - Sammanställning"
+		},
+		{
+			"id": 9,
+			"activity": "API - Uppgifter"
+		},
+		{
+			"id": 1,
+			"activity": "Databas"
+		},
+		{
+			"id": 11,
+			"activity": "Dokumentation"
+		},
+		{
+			"id": 3,
+			"activity": "Gränssnitt - Aktiviteter"
+		},
+		{
+			"id": 6,
+			"activity": "Gränssnitt - Ny aktivitet"
+		},
+		{
+			"id": 5,
+			"activity": "Gränssnitt - Ny uppgift"
+		},
+		{
+			"id": 7,
+			"activity": "Gränssnitt - Sammanställning"
+		},
+		{
+			"id": 4,
+			"activity": "Gränssnitt - Uppgifter"
+		},
+		{
+			"id": 2,
+			"activity": "Planering"
+		}
+	]
 }

@@ -1,0 +1,60 @@
+{
+	"tasks":
+	[
+		{
+			"activityId": 8,
+			"activity": "API - Aktiviteter", 
+			"time":"00:15"
+		},
+		{
+			"activityId": 10,
+			"activity": "API - Sammanställning", 
+			"time":"02:20"
+		},
+		{
+			"activityId": 9,
+			"activity": "API - Uppgifter", 
+			"time":"04:30"
+		},
+		{
+			"activityId": 1,
+			"activity": "Databas", 
+			"time":"01:05"
+		},
+		{
+			"activityId": 11,
+			"activity": "Dokumentation", 
+			"time":"03:35"
+		},
+		{
+			"activityId": 3,
+			"activity": "Gränssnitt - Aktiviteter", 
+			"time":"04:20"
+		},
+		{
+			"activityId": 6,
+			"activity": "Gränssnitt - Ny aktivitet", 
+			"time":"03:15"
+		},
+		{
+			"activityId": 5,
+			"activity": "Gränssnitt - Ny uppgift", 
+			"time":"06:45"
+		},
+		{
+			"activityId": 7,
+			"activity": "Gränssnitt - Sammanställning", 
+			"time":"03:45"
+		},
+		{
+			"activityId": 4,
+			"activity": "Gränssnitt - Uppgifter", 
+			"time":"12:45"
+		},
+		{
+			"activityId": 2,
+			"activity": "Planering", 
+			"time":"01:45"
+		}
+	]
+}
