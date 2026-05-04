@@ -1,0 +1,52 @@
+window.onload = () => {
+    // Rensa listan
+    rensaLista()
+
+    // Sätt standardvärden för perioden
+//    setDateInterval()
+
+    // Hämta från API:et
+    getActivities()
+
+}
+
+function rensaLista() {
+    let lista = document.getElementById("tom");
+    lista.innerHTML = "";
+}
+
+function setDateInterval() {
+    let idag = new Date();
+    let aktuellManad = idag.getMonth();
+
+    let fromDatum = new Date(idag.getFullYear(), aktuellManad, 1, 24);
+    let toDatum = new Date(idag.getFullYear(), aktuellManad + 1, 0, 24);
+
+    document.getElementById("franDatum").value = fromDatum.toISOString().substring(0, 10);
+    document.getElementById("tillDatum").value = toDatum.toISOString().substring(0, 10);
+
+}
+
+async function getActivities() {
+ }
+
+function fyllLista(data) {
+    let target = document.getElementById("tom")
+
+    // Loopa igenom all data
+    for (let i = 0; i < data.activities.length; i++) {
+        let rad = document.createElement("ul")
+        rad.className = "lista"
+        let content = `<li>${data.activities[i].activity}</li>`
+        content += `<li class="right"><a href="editAktivitet.html?id=${data.activities[i].id}"><img class="edit" src="images/edit.png"></a>`
+        content += `<img class="delete" onclick="alertDelete(${data.activities[i].id})" src="images/delete.png"></li>`
+        rad.innerHTML = content
+        target.appendChild(rad)
+    }
+}
+
+function alertDelete(id) {
+    if (confirm('Vill du radera posten med id=' + id + '?')) {
+        alert("Raderar")
+    }
+}

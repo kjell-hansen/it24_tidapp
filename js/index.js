@@ -1,14 +1,11 @@
 window.onload = () => {
     // Rensa listan
-//    alert("Tömmer listan")
     rensaLista()
 
     // Sätt standardvärden för perioden
-    alert("Sätter standardvärden för perioden")
     setDateInterval()
 
     // Hämta från API:et
-    alert("Hämtar data")
     getCompilation()
 
 }

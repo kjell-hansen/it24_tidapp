@@ -29,7 +29,7 @@
                 <li class="beskrivning">Beskrivning</li>
                 <li class="right">&nbsp;</li>
             </ul>
-            <div class="tom">
+            <div id="tom">
                 <!--- ul-taggarna nedan ska tas bort och skapas dynamiskt-->
                 <ul class="lista">
                     <li>2026-04-01</li>
@@ -93,7 +93,7 @@
                     </li>
                     <li class="right">
                         <a href="editUppgift.html"><img class="edit" src="images/edit.png"></a>
-                        <img class="delete" onclick="alerDelete" src="images/delete.png">
+                        <img class="delete" onclick="alertDelete()" src="images/delete.png">
                     </li>
                 </ul>
                 <!--- Slut på dynamiskt skapad html -->
@@ -103,4 +103,6 @@
             <p>&copy; Kjell Hansen 2026</p>
         </footer>
     </body>
+    <script src="./js/main.js"></script>
+    <script src="./js/uppgifter.js"></script>
 </html>
