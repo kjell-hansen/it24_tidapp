@@ -28,7 +28,29 @@ function setDateInterval() {
 }
 
 async function getActivities() {
- }
+    try {
+        let response= await fetch("dummy/aktiviteter.json")
+        if (response.ok) {
+            let data = await response.json()
+            fyllLista(data)
+        } else {
+            let message=null
+            try{
+                message=await response.json()
+            } finally {
+                let fel ={status:response.status,
+                    text: response.statusText,
+                    url: response.url,
+                    message
+                }
+
+                throw fel
+            }
+        }
+    } catch (error) {
+        console.error(error)
+    }
+}
 
 function fyllLista(data) {
     let target = document.getElementById("tom")
