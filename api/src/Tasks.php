@@ -4,13 +4,12 @@ declare (strict_types=1);
 require_once __DIR__ . '/activities.php';
 
 /**
- * Hämtar en lista med alla uppgifter och tillhörande aktiviteter 
+ * Hämtar en lista med alla uppgifter och tillhörande aktiviteter
  * Beroende på indata returneras en sida eller ett datumintervall
  * @param Route $route indata med information om vad som ska hämtas
  * @return Response
  */
-function tasklists(Route $route): Response {
-    return new Response("Tasklist");
+function tasklists(Route $route):Response {
     try {
         if (count($route->getParams()) === 1 && $route->getMethod() === RequestMethod::GET) {
             return hamtaSida($route->getParams()[0]);
@@ -31,7 +30,7 @@ function tasklists(Route $route): Response {
  * @param array $postData Indata för behandling i angiven rutt
  * @return Response
  */
-function tasks(Route $route, array $postData): Response {
+function tasks(Route $route, array $postData):Response {
     return new Response("Tasks");
     try {
         if (count($route->getParams()) === 1 && $route->getMethod() === RequestMethod::GET) {
@@ -41,7 +40,7 @@ function tasks(Route $route, array $postData): Response {
             return sparaNyUppgift($postData);
         }
         if (count($route->getParams()) === 1 && $route->getMethod() === RequestMethod::PUT) {
-            return uppdateraUppgift( $route->getParams()[0], $postData);
+            return uppdateraUppgift($route->getParams()[0], $postData);
         }
         if (count($route->getParams()) === 1 && $route->getMethod() === RequestMethod::DELETE) {
             return raderaUppgift($route->getParams()[0]);
@@ -56,9 +55,7 @@ function tasks(Route $route, array $postData): Response {
  * @param string $sida
  * @return Response
  */
-function hamtaSida(string $sida): Response {
-    
-}
+function hamtaSida(string $sida):Response {}
 
 /**
  * Hämtar alla poster mellan angivna datum
@@ -66,8 +63,59 @@ function hamtaSida(string $sida): Response {
  * @param string $tom
  * @return Response
  */
-function hamtaDatum(string $from, string $tom): Response {
-    
+function hamtaDatum(string $from, string $tom):Response {
+    // Kontrollera indata
+    $fromDate = DateTimeImmutable::createFromFormat("Y-m-d", $from);
+    $tomDate = DateTimeImmutable::createFromFormat("Y-m-d", $tom);
+
+    $err = [];
+    if ($fromDate === false) {
+        $err[] = "Ogiltigt från-datum";
+    } elseif ($fromDate->format('Y-m-d') !== $from) {
+        $err[] = "Ogiltigt format på från-datum";
+    }
+    if ($tomDate === false) {
+        $err[] = "Ogiltigt till-datum";
+    } elseif ($tomDate->format('Y-m-d') !== $tom) {
+        $err[] = "Ogiltigt format på till-datum";
+    }
+    if(count($err)===0 && $fromDate->format('Y-m-d')>$tomDate->format('Y-m-d')) {
+        $err[]="Från-datum ska vara mindre än till-datum";
+    }
+
+    if (count($err) > 0) {
+        array_unshift($err, 'Bad request');
+        $retur = new stdClass();
+        $retur->error = $err;
+
+        return new Response($retur, 400);
+    }
+
+    // Koppla databas
+    $db = connectDb();
+
+    // Skicka fråga
+    $stmt = $db->prepare('SELECT uppgifter.id, aktivitet_id, datum, varaktighet,aktivitet, beskrivning 
+FROM uppgifter
+INNER JOIN aktiviteter ON aktiviteter.id=aktivitet_id
+WHERE datum BETWEEN :from AND :to
+ORDER BY datum');
+    $stmt->execute(['from' => $fromDate->format('Y-m-d'), 'to' => $tomDate->format("Y-m-d")]);
+
+    // Kontrollera svar och returnera data
+    $retur = [];
+    foreach ($stmt->fetchAll() as $row) {
+        $post = new stdClass();
+        $post->id = $row['id'];
+        $post->activityId = $row['aktivitet_id'];
+        $post->date = $row['datum'];
+        $post->time = $row['varaktighet'];
+        $post->activity = $row['aktivitet'];
+        $post->description = $row['beskrivning'];
+        $retur[] = $post;
+    }
+
+    return new Response($retur);
 }
 
 /**
@@ -75,34 +123,26 @@ function hamtaDatum(string $from, string $tom): Response {
  * @param string $id Id för post som ska hämtas
  * @return Response
  */
-function hamtaEnskildUppgift(string $id): Response {
-    
-}
+function hamtaEnskildUppgift(string $id):Response {}
 
 /**
  * Sparar en ny uppgiftspost
  * @param array $postData indata för uppgiften
  * @return Response
  */
-function sparaNyUppgift(array $postData): Response {
-    
-}
+function sparaNyUppgift(array $postData):Response {}
 
 /**
- * Uppdaterar en angiven uppgiftspost med ny information 
+ * Uppdaterar en angiven uppgiftspost med ny information
  * @param string $id id för posten som ska uppdateras
  * @param array $postData ny data att sparas
  * @return Response
  */
-function uppdateraUppgift(string $id, array $postData): Response {
-    
-}
+function uppdateraUppgift(string $id, array $postData):Response {}
 
 /**
  * Raderar en uppgiftspost
  * @param string $id Id för posten som ska raderas
  * @return Response
  */
-function raderaUppgift(string $id): Response {
-    
-}
+function raderaUppgift(string $id):Response {}
