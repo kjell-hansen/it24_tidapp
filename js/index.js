@@ -8,6 +8,8 @@ window.onload = () => {
     // Hämta från API:et
     getCompilation()
 
+    // Eventlisteners
+    document.getElementById('hamta').addEventListener("click", hamtaNyData)
 }
 
 function rensaLista() {
@@ -66,3 +68,9 @@ function fyllLista(data) {
         target.appendChild(rad)
     }
 }
+
+function hamtaNyData() {
+    rensaLista()
+    getCompilation()
+}
+
