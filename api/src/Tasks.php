@@ -86,14 +86,36 @@ function hamtaSida(string $sida):Response {
     // Kontrollera begärd sida
     if ($sidnummer > $antalSidor) {
         $retur = new stdClass();
-        $retur->error = ['Bad request', "Det finns bara $antalSidor"];
+        $retur->error = ['Bad request', "Det finns bara $antalSidor sidor"];
 
         return new Response($retur, 400);
     }
-    
+
     // Skicka fråga för aktuell sida
+    $firstRecord = $sidnummer * $posterPerSida - $posterPerSida;
+    $result = $db->query("SELECT uppgifter.id, aktivitet_id, datum, varaktighet,aktivitet, beskrivning 
+FROM uppgifter
+INNER JOIN aktiviteter ON aktiviteter.id=aktivitet_id
+ORDER BY datum LIMIT $firstRecord, $posterPerSida");
 
     // Returnera svar
+    $retur = [];
+    foreach ($result->fetchAll() as $row) {
+        $post = new stdClass();
+        $post->id = $row['id'];
+        $post->activityId = $row['aktivitet_id'];
+        $post->date = $row['datum'];
+        $post->time = $row['varaktighet'];
+        $post->activity = $row['aktivitet'];
+        $post->description = $row['beskrivning'];
+        $retur[] = $post;
+    }
+
+    $svar=new stdClass();
+    $svar->pages=$antalSidor;
+    $svar->tasks=$retur;
+
+    return new Response($svar);
 }
 
 /**
