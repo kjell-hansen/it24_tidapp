@@ -31,7 +31,6 @@ function tasklists(Route $route):Response {
  * @return Response
  */
 function tasks(Route $route, array $postData):Response {
-    return new Response("Tasks");
     try {
         if (count($route->getParams()) === 1 && $route->getMethod() === RequestMethod::GET) {
             return hamtaEnskildUppgift($route->getParams()[0]);
@@ -105,15 +104,15 @@ ORDER BY datum LIMIT $firstRecord, $posterPerSida");
         $post->id = $row['id'];
         $post->activityId = $row['aktivitet_id'];
         $post->date = $row['datum'];
-        $post->time = $row['varaktighet'];
+        $post->time = substr($row['varaktighet'], 0, 5);
         $post->activity = $row['aktivitet'];
         $post->description = $row['beskrivning'];
         $retur[] = $post;
     }
 
-    $svar=new stdClass();
-    $svar->pages=$antalSidor;
-    $svar->tasks=$retur;
+    $svar = new stdClass();
+    $svar->pages = $antalSidor;
+    $svar->tasks = $retur;
 
     return new Response($svar);
 }
@@ -170,7 +169,7 @@ ORDER BY datum');
         $post->id = $row['id'];
         $post->activityId = $row['aktivitet_id'];
         $post->date = $row['datum'];
-        $post->time = $row['varaktighet'];
+        $post->time = substr($row['varaktighet'], 0, 5);
         $post->activity = $row['aktivitet'];
         $post->description = $row['beskrivning'];
         $retur[] = $post;
@@ -184,7 +183,45 @@ ORDER BY datum');
  * @param string $id Id för post som ska hämtas
  * @return Response
  */
-function hamtaEnskildUppgift(string $id):Response {}
+function hamtaEnskildUppgift(string $id):Response {
+    // Kontrollera indata
+    $taskId = filter_var($id, FILTER_VALIDATE_INT);
+
+    if ($taskId === false) {
+        $retur = new stdClass();
+        $retur->error = ['Bad request', 'Ogiltigt uppgiftsid'];
+
+        return new Response($retur, 400);
+    }
+
+    // Koppla databas
+    $db = connectDb();
+
+    // Hämta post
+    $stmt = $db->prepare('SELECT uppgifter.id, aktivitet_id, datum, varaktighet,aktivitet, beskrivning 
+FROM uppgifter
+INNER JOIN aktiviteter ON aktiviteter.id=aktivitet_id
+WHERE uppgifter.id=:id');
+    $stmt->execute(['id' => $taskId]);
+
+    // Returnera svar
+    $row = $stmt->fetch();
+    if (!$row) {
+        $retur = new stdClass();
+        $retur->error = ['Bad request', "Angivet id ($taskId) finns inte i databasen"];
+
+        return new Response($retur, 400);
+    }
+    $retur = new stdClass();
+    $retur->id = $row['id'];
+    $retur->date = $row['datum'];
+    $retur->time = substr($row['varaktighet'], 0, 5);
+    $retur->activityId = $row['aktivitet_id'];
+    $retur->activity = $row['aktivitet'];
+    $retur->description = $row['beskrivning'];
+
+    return new Response($retur);
+}
 
 /**
  * Sparar en ny uppgiftspost
