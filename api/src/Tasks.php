@@ -243,4 +243,32 @@ function uppdateraUppgift(string $id, array $postData):Response {}
  * @param string $id Id för posten som ska raderas
  * @return Response
  */
-function raderaUppgift(string $id):Response {}
+function raderaUppgift(string $id):Response {
+    // Kontrollera indata
+    $taskId=filter_var($id, FILTER_VALIDATE_INT);
+
+    if($taskId===false){
+        $retur=new stdClass();
+        $retur->error=['Bad request', 'Ogiltigt id'];
+        return new Response($retur, 400);
+    }
+
+    // Koppla databas
+    $db=connectDb();
+
+    // Skicka fråga
+    $stmt=$db->prepare('DELETE FROM uppgifter WHERE id=:id');
+    $stmt->execute(['id'=>$taskId]);
+
+    // Kontrollera svar och returnera svar
+    if($stmt->rowCount()===0) {
+        $retur=new stdClass();
+        $retur->result=false;
+        $retur->message=['Radera misslyckades', 'Inga poster raderades'];
+        return new Response($retur);
+    }
+        $retur=new stdClass();
+        $retur->result=true;
+        $retur->message=['Radera lyckades', "{$stmt->rowCount()} poster raderades"];
+        return new Response($retur);
+}
