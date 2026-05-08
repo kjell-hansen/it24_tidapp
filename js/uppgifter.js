@@ -1,12 +1,16 @@
 window.onload = () => {
+    // Skapa händelselyssnare för knapparna
+    document.getElementById('hamtaDatum').addEventListener("click", hamtaDatum)
+    document.getElementById('hamtaSida').addEventListener("click", hamtaSida)
+
     // Rensa listan
     rensaLista()
 
     // Sätt standardvärden för perioden
-//    setDateInterval()
+    setDateInterval()
 
     // Hämta från API:et
-    getTasklist()
+    hamtaDatum()
 
 }
 
@@ -27,18 +31,20 @@ function setDateInterval() {
 
 }
 
-function getTasklist() {
+function hamtaDatum() {
+    // Hämtar poster baserat på datum
     fetch("dummy/uppgifter.json")
-        .then(response =>{
-            if(response.ok) {
+        .then(response => {
+            if (response.ok) {
                 return response.json()
             }
 
             // response är inte ok...
             return response.json()
-                .catch(()=>null) // Är svaret inte json händer inget
-                .then(message =>{
-                    let fel ={status:response.status,
+                .catch(() => null) // Är svaret inte json händer inget
+                .then(message => {
+                    let fel = {
+                        status: response.status,
                         text: response.statusText,
                         url: response.url,
                         message
@@ -47,7 +53,37 @@ function getTasklist() {
                     throw fel
                 })
         })
-        .then(data =>{
+        .then(data => {
+            fyllLista(data)
+        })
+        .catch(error => {
+            console.error(error)
+        })
+}
+
+function hamtaSida() {
+    // Hämtar poster baserat på sidnummer
+    fetch("dummy/uppgifter.json")
+        .then(response => {
+            if (response.ok) {
+                return response.json()
+            }
+
+            // response är inte ok...
+            return response.json()
+                .catch(() => null) // Är svaret inte json händer inget
+                .then(message => {
+                    let fel = {
+                        status: response.status,
+                        text: response.statusText,
+                        url: response.url,
+                        message
+                    }
+
+                    throw fel
+                })
+        })
+        .then(data => {
             fyllLista(data)
         })
         .catch(error => {
@@ -56,8 +92,10 @@ function getTasklist() {
 }
 
 function fyllLista(data) {
-    let target = document.getElementById("tom")
+    // Rensa listan
+    rensaLista()
 
+    let target = document.getElementById("tom")
     // Loopa igenom all data
     for (let i = 0; i < data.tasks.length; i++) {
         let rad = document.createElement("ul")
@@ -76,5 +114,39 @@ function fyllLista(data) {
 function alertDelete(id) {
     if (confirm('Vill du radera posten med id=' + id + '?')) {
         alert("Raderar")
+    }
+}
+
+function aktiveraAlternativ(ev) {
+    try {
+        if (ev.target.value === 'sida') {
+            // Aktivera rätt kontroller
+            document.getElementById('sidnr').disabled = false;
+            document.getElementById('hamtaSida').disabled = false;
+            hamtaSida()
+            // Avaktivera övriga kontroller
+            document.getElementById('franDatum').disabled = true;
+            document.getElementById('tillDatum').disabled = true;
+            document.getElementById('hamtaDatum').disabled = true;
+        } else {
+            // Aktivera rätt kontroller
+            document.getElementById('franDatum').disabled = false;
+            document.getElementById('tillDatum').disabled = false;
+            document.getElementById('hamtaDatum').disabled = false;
+            hamtaDatum()
+            // Avaktivera övriga kontroller
+            document.getElementById('sidnr').disabled = true;
+            document.getElementById('hamtaSida').disabled = true;
+        }
+    } catch (error) {
+        console.error(error)
+        // Aktivera standard kontroller
+        document.getElementById('franDatum').disabled = false;
+        document.getElementById('tillDatum').disabled = false;
+        document.getElementById('hamtaDatum').disabled = false;
+        hamtaDatum()
+        // Avaktivera övriga kontroller
+        document.getElementById('sidnr').disabled = true;
+        document.getElementById('hamtaSida').disabled = true;
     }
 }
