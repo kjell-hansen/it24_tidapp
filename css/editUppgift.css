@@ -1,3 +1,8 @@
 textarea {
     max-width: 80%;
 }
+
+input:invalid {
+    background-color: darkred;
+    color: white;
+}
