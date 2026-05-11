@@ -238,10 +238,10 @@ function sparaNyUppgift(array $postData):Response {
 
         return new Response($retur, 400);
     }
-    if(!array_key_exists('description', $postData)) {
-        $postData['description']='';
+    if (!array_key_exists('description', $postData)) {
+        $postData['description'] = '';
     } else {
-        $postData['description']=htmlentities($postData['description']);
+        $postData['description'] = htmlentities($postData['description']);
     }
 
     // Radera action från postdata så att vi kan använda den vid insert-frågan
@@ -264,8 +264,9 @@ VALUES(:activityId, :date, :time, :description)');
 
         return new Response($retur);
     } catch (Exception $e) {
-        $retur=new stdClass();
-        $retur->error=['Bad request', 'Fel vid spara (felaktigt aktivitetsid?)'];
+        $retur = new stdClass();
+        $retur->error = ['Bad request', 'Fel vid spara (felaktigt aktivitetsid?)'];
+
         return new Response($retur, 400);
     }
 }
@@ -276,7 +277,64 @@ VALUES(:activityId, :date, :time, :description)');
  * @param array $postData ny data att sparas
  * @return Response
  */
-function uppdateraUppgift(string $id, array $postData):Response {}
+function uppdateraUppgift(string $id, array $postData):Response {
+    // Kontrollera indata
+    $indataErr = kontrolleraIndata($postData);
+
+    if (count($indataErr) > 0) {
+        $retur = new stdClass();
+        $retur->error = array_merge(['Bad request'], $indataErr);
+
+        return new Response($retur, 400);
+    }
+    if (!array_key_exists('description', $postData)) {
+        $postData['description'] = '';
+    } else {
+        $postData['description'] = htmlentities($postData['description']);
+    }
+
+    // Kontrollera id
+    $taskId = filter_var($id, FILTER_VALIDATE_INT);
+    if ($taskId === false) {
+        $retur = new stdClass();
+        $retur->error = ['Bad request', 'Ogiltigt id'];
+
+        return new Response($retur, 400);
+    }
+
+    // Lägg till id till postdata
+    $postData['id'] = $taskId;
+    // Radera action från postdata så att vi kan använda den vid insert-frågan
+    unset($postData['action']);
+
+    // Koppla databas
+    $db = connectDb();
+
+    try {
+        // Skicka fråga
+        $stmt = $db->prepare('UPDATE uppgifter SET 
+                     datum=:date, varaktighet=:time, aktivitet_id=:activityId, beskrivning=:description
+                     WHERE id=:id');
+        $stmt->execute($postData);
+
+        // Kontrollera svar och returnera meddelande
+        $retur = new stdClass();
+        if ($stmt->rowCount() === 0) {
+            $retur->result = false;
+            $retur->message = ["Uppdatera misslyckades", "Inga rader uppdaterades"];
+        } else {
+            $retur->result = true;
+            $retur->message = ["Uppdatera lyckades", "{$stmt->rowCount()} rader uppdaterades"];
+        }
+
+        return new Response($retur);
+    } catch (Exception $e) {
+        $retur = new stdClass();
+        $retur->error = ['Bad request', 'Fel vid uppdatera (felaktigt aktivitetsid?)'];
+
+        return new Response($retur, 400);
+    }
+}
 
 /**
  * Raderar en uppgiftspost
@@ -348,7 +406,7 @@ function kontrolleraIndata(array $postData):array {
             $returArray[] = "Ogiltigt varaktighet";
         } elseif ($varaktighet->format("H:i") !== $postData['time']) {
             $returArray[] = "Ogiltigt tidsangivelse för varaktighet";
-        } elseif ($postData['time'] > "08:00" || $postData['time']<"00:15") {
+        } elseif ($postData['time'] > "08:00" || $postData['time'] < "00:15") {
             $returArray[] = "Varaktigheten ska vara mindre än 8 timmar och minst 15 minuter";
         } elseif (!in_array(substr($postData['time'], -2), ["00", "15", "30", "45"])) {
             $returArray[] = "Ange varaktigheten i jämna 15 minuter";
