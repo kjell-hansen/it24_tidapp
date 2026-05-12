@@ -46,7 +46,9 @@ try {
             $retur = compilations($route);
             break;
         default:
-            $retur = new Response("Okänt anrop", 400);
+            $svar=new stdClass();
+            $svar->error=['Page not found', "Okänt anrop"];
+            $retur = new Response($svar, 404);
             break;
     }
 
