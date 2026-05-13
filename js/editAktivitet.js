@@ -12,7 +12,7 @@ window.onload = () => {
 
 function fillForm(id) {
     // Hämta data (just nu all data och sen hitta rätt, senare hämta bara rätt data)
-    fetch('dummy/aktiviteter.json')
+    fetch(`api/activity/${id}`)
         .then(response => {
             if (response.ok) {
                 return response.json()
@@ -27,21 +27,17 @@ function fillForm(id) {
                         url: response.url,
                         message
                     }
+                    // Töm formuläret
+                    emptyForm()
 
                     throw fel
                 })
         })
         .then(data => {
-            let post = data.activities.find(akt => akt.id == id)
-            if (post) {
-                // Fyll formuläret och se till att ID syns
-                document.getElementById('valueId').innerText = post.id
-                document.getElementById('labelId').style.display = 'initial'
-                document.getElementById('inputAktivitet').value = post.activity
-            } else {
-                alert("Posten hittades inte")
-                emptyForm()
-            }
+            // Fyll formuläret och se till att ID syns
+            document.getElementById('valueId').innerText = data.id
+            document.getElementById('labelId').style.display = 'initial'
+            document.getElementById('inputAktivitet').value = data.activity
         })
         .catch(error => {
             console.error(error)
