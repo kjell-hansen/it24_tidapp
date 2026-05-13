@@ -174,8 +174,10 @@ ORDER BY datum');
         $post->description = $row['beskrivning'];
         $retur[] = $post;
     }
+    $svar = new stdClass();
+    $svar->tasks = $retur;
 
-    return new Response($retur);
+    return new Response($svar);
 }
 
 /**
