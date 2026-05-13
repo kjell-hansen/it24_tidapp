@@ -33,7 +33,9 @@ function setDateInterval() {
 
 function hamtaDatum() {
     // Hämtar poster baserat på datum
-    fetch("dummy/uppgifter.json")
+    let franDatum = document.getElementById("franDatum").value;
+    let tillDatum = document.getElementById("tillDatum").value;
+    fetch(`api/tasklist/${franDatum}/${tillDatum}`)
         .then(response => {
             if (response.ok) {
                 return response.json()
@@ -63,7 +65,8 @@ function hamtaDatum() {
 
 function hamtaSida() {
     // Hämtar poster baserat på sidnummer
-    fetch("dummy/uppgifter.json")
+    let sidnr=document.getElementById("sidnr").value;
+    fetch(`api/tasklist/${sidnr}`)
         .then(response => {
             if (response.ok) {
                 return response.json()
@@ -85,6 +88,16 @@ function hamtaSida() {
         })
         .then(data => {
             fyllLista(data)
+            // Fyll dropdown-listan för sidnummer med tillgängliga sidnummer
+            let select=document.getElementById("sidnr");
+            select.innerHTML='';
+            for(let i=0;i<data.pages;i++) {
+                let opt=document.createElement("option");
+                opt.text=`${i+1}`
+                select.appendChild(opt)
+            }
+            // Välj aktuellt sidnummer
+            select.value = sidnr;
         })
         .catch(error => {
             console.error(error)

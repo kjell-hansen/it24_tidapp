@@ -29,7 +29,7 @@ function setDateInterval() {
 
 async function getActivities() {
     try {
-        let response= await fetch("dummy/aktiviteter.json")
+        let response= await fetch("api/activity")
         if (response.ok) {
             let data = await response.json()
             fyllLista(data)
