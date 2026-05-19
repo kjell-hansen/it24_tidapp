@@ -1,4 +1,5 @@
 let aktiviteter = []
+let aktuelltUppgiftId = null
 window.onload = () => {
     let queryString = window.location.search
     let parameters = new URLSearchParams(queryString)
@@ -6,6 +7,7 @@ window.onload = () => {
     getActivities()
         .finally(() => {
             if (parameters.has('id')) {
+                aktuelltUppgiftId = parameters.get('id')
                 fillForm(parameters.get('id'))
             } else {
                 emptyForm()
@@ -111,6 +113,16 @@ function sparaUppgift() {
         return
     }
 
+    if (aktuelltUppgiftId) {
+        // id finns, uppdatera uppgiften
+        uppdateraBefintligUppgift()
+    } else {
+        // uppgiftid saknas, skapa ny post
+        sparaNyUppgift()
+    }
+}
+
+function sparaNyUppgift() {
     // Inmatningar i formuläret duger för att spara
     let form = new FormData()
     form.append("date", document.getElementById('inputDatum').value)
@@ -131,10 +143,37 @@ function sparaUppgift() {
         })
         .then(data => {
             alert(`Ny post sparades med id=${data.id}`)
-            window.location.href=`editUppgift.html?id=${data.id}`
+            window.location.href = `editUppgift.html?id=${data.id}`
         })
         .catch(err => {
             alert("Spara misslyckades, titta i konsolen för närmare besked")
+            console.error(err)
+        })
+}
+function uppdateraBefintligUppgift() {
+    // Inmatningar i formuläret duger för att spara
+    let form = new FormData()
+    form.append("date", document.getElementById('inputDatum').value)
+    form.append("time", document.getElementById('inputVaraktighet').value)
+    form.append("activityId", document.getElementById('inputAktivitet').value)
+    form.append("description", document.getElementById('inputBeskrivning').value)
+    form.append("action", "save")
+    fetch(`api/task/${aktuelltUppgiftId}`, {
+        method: "POST",
+        body: form
+    })
+        .then(response => {
+            if (response.ok) {
+                return response.json()
+            } else {
+                throw response.json()
+            }
+        })
+        .then(data => {
+            alert(`Posten uppdaterades`)
+        })
+        .catch(err => {
+            alert("Uppdatera misslyckades, titta i konsolen för närmare besked")
             console.error(err)
         })
 }
