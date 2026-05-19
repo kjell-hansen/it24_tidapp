@@ -65,7 +65,7 @@ function hamtaDatum() {
 
 function hamtaSida() {
     // Hämtar poster baserat på sidnummer
-    let sidnr=document.getElementById("sidnr").value;
+    let sidnr = document.getElementById("sidnr").value;
     fetch(`api/tasklist/${sidnr}`)
         .then(response => {
             if (response.ok) {
@@ -89,11 +89,11 @@ function hamtaSida() {
         .then(data => {
             fyllLista(data)
             // Fyll dropdown-listan för sidnummer med tillgängliga sidnummer
-            let select=document.getElementById("sidnr");
-            select.innerHTML='';
-            for(let i=0;i<data.pages;i++) {
-                let opt=document.createElement("option");
-                opt.text=`${i+1}`
+            let select = document.getElementById("sidnr");
+            select.innerHTML = '';
+            for (let i = 0; i < data.pages; i++) {
+                let opt = document.createElement("option");
+                opt.text = `${i + 1}`
                 select.appendChild(opt)
             }
             // Välj aktuellt sidnummer
@@ -126,7 +126,32 @@ function fyllLista(data) {
 
 function alertDelete(id) {
     if (confirm('Vill du radera posten med id=' + id + '?')) {
-        alert("Raderar")
+        let form = new FormData()
+        form.append("action", 'delete')
+        fetch(`api/task/${id}`, {
+            method: "POST",
+            body: form
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json()
+                } else {
+                    throw response.json()
+                }
+            })
+            .then(data => {
+                if (data.result) {
+                    alert('Radera lyckades')
+                    window.location.reload();
+                } else {
+                    alert("Radera misslyckades, kontrollera konsolen")
+                    console.log(data)
+                }
+            })
+            .catch(error => {
+                alert("Något gick fel vid radering, kontrollera konsolen")
+                console.error(error);
+            })
     }
 }
 
