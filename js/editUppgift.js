@@ -111,7 +111,32 @@ function sparaUppgift() {
         return
     }
 
-    alert('Hurra, sparar detta direkt')
+    // Inmatningar i formuläret duger för att spara
+    let form = new FormData()
+    form.append("date", document.getElementById('inputDatum').value)
+    form.append("time", document.getElementById('inputVaraktighet').value)
+    form.append("activityId", document.getElementById('inputAktivitet').value)
+    form.append("description", document.getElementById('inputBeskrivning').value)
+    form.append("action", "save")
+    fetch("api/task", {
+        method: "POST",
+        body: form
+    })
+        .then(response => {
+            if (response.ok) {
+                return response.json()
+            } else {
+                throw response.json()
+            }
+        })
+        .then(data => {
+            alert(`Ny post sparades med id=${data.id}`)
+            window.location.href=`editUppgift.html?id=${data.id}`
+        })
+        .catch(err => {
+            alert("Spara misslyckades, titta i konsolen för närmare besked")
+            console.error(err)
+        })
 }
 
 function valideraFormular() {
