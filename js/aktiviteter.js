@@ -29,16 +29,17 @@ function setDateInterval() {
 
 async function getActivities() {
     try {
-        let response= await fetch("api/activity")
+        let response = await fetch("api/activity")
         if (response.ok) {
             let data = await response.json()
             fyllLista(data)
         } else {
-            let message=null
-            try{
-                message=await response.json()
+            let message = null
+            try {
+                message = await response.json()
             } finally {
-                let fel ={status:response.status,
+                let fel = {
+                    status: response.status,
                     text: response.statusText,
                     url: response.url,
                     message
@@ -69,6 +70,30 @@ function fyllLista(data) {
 
 function alertDelete(id) {
     if (confirm('Vill du radera posten med id=' + id + '?')) {
-        alert("Raderar")
+        let formData = new FormData()
+        formData.append("action", 'delete')
+        fetch(`api/activity/${id}`, {
+            method: "POST",
+            body: formData,
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json()
+                } else {
+                    throw response.json()
+                }
+            })
+            .then(data => {
+                if (data.result) {
+                    alert('Radera lyckades')
+                    window.location.reload();
+                } else {
+                    alert(data.message.join('\r\n'))
+                }
+            })
+            .catch(async (error) => {
+                let meddelande = (await error).error
+                alert(meddelande.join('\r\n'))
+            })
     }
 }

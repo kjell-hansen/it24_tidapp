@@ -1,0 +1,9 @@
+.error {
+    color: red;
+    background-color: palegoldenrod;
+}
+
+input:invalid {
+    background-color: darkred;
+    color: white;
+}
