@@ -297,7 +297,7 @@ function uppdateraUppgift(string $id, array $postData):Response {
 
     // Kontrollera id
     $taskId = filter_var($id, FILTER_VALIDATE_INT);
-    if ($taskId === false) {
+    if ($taskId === false || $taskId < 1) {
         $retur = new stdClass();
         $retur->error = ['Bad request', 'Ogiltigt id'];
 
